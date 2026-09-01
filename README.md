@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Yuki Wicaksono — Personal Branding Website
 
-## Getting Started
+Personal branding / portfolio site for Yuki Wicaksono, Full Stack Developer.
+Built with **Next.js 16 (App Router)**, **React 19**, and **TypeScript**.
 
-First, run the development server:
+## Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Other scripts:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build    # production build
+npm start        # serve the production build
+npm run lint     # eslint
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Structure
 
-## Learn More
+```
+app/
+  layout.tsx     # fonts (Instrument Sans, JetBrains Mono) + metadata
+  page.tsx       # renders the site component
+  globals.css    # resets, reveal animations, hover states, responsive rules
+  favicon.ico    # browser tab icon (the "Yk" mark)
+components/
+  YukiPortfolioSite.tsx   # the whole site (client component)
+public/
+  logo.png       # "Yk" logo used in the nav and footer
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Editing content
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Everything lives in the `TEXT` object at the top of `components/YukiPortfolioSite.tsx`,
+with a full `en` and `id` translation pair. Edit the copy, projects, and stack there.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Tweakable constants, same file:
 
-## Deploy on Vercel
+| Constant | Purpose |
+| --- | --- |
+| `ACCENT` | Accent color (default `#c9bba5`) |
+| `ALTERNATE_ROWS` | Alternate the left/right layout of the "How I work" rows |
+| `STATUS_TEXT_OVERRIDE` | Override the "Available for work" status line |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Features
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Sections: hero + terminal, How I work, Projects (live + open source), Stack, Contact
+- **EN / ID** language toggle
+- **⌘K / Ctrl+K** command palette for jumping between sections
+- Scroll-spy navigation and scroll-reveal animations (respects `prefers-reduced-motion`)
+- Responsive down to 390px; fonts self-hosted via `next/font` — no external requests
+- "Yk" logo in the nav and footer, served through `next/image` (same mark as the favicon)
+- Fully static: both routes prerender at build time
+
+## Notes
+
+- Styling is inline (ported from the design export); `app/globals.css` holds the
+  keyframes, hover states, and the media queries that stack the two-column grids
+  and collapse the nav links below 720px / 860px.
+- Deploys as-is to Vercel, or any host that runs `npm run build && npm start`.

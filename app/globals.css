@@ -1,49 +1,59 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html {
-  height: 100%;
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
+html, body {
   margin: 0;
+  padding: 0;
+  background: #0a0a09;
+  scroll-behavior: smooth;
+}
+* { box-sizing: border-box; }
+a { color: #e7e2d9; text-decoration: none; }
+a:hover { color: #ffffff; }
+::selection { background: #c9bba5; color: #242220; }
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-thumb { background: #3a3733; border-radius: 8px; border: 3px solid transparent; background-clip: content-box; }
+::-webkit-scrollbar-track { background: transparent; }
+
+@keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+
+[data-reveal-ready] [data-reveal] {
+  opacity: 0;
+  filter: blur(16px);
+  transform: translateY(22px);
+  will-change: opacity, filter, transform;
+}
+[data-reveal-ready] [data-reveal].is-in {
+  opacity: 1;
+  filter: blur(0);
+  transform: none;
+  transition: opacity .85s ease, filter .95s ease, transform .85s cubic-bezier(.2,.7,.2,1);
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { opacity: 1; filter: none; transform: none; }
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+/* Hover states. These elements carry inline styles, which outrank a plain
+   class rule, so !important is what lets the hover actually take effect. */
+.btn-hire:hover { background: #ffffff !important; }
+.btn-accent:hover { filter: brightness(1.1); }
+.btn-outline:hover { border-color: rgba(171,161,150,0.4) !important; color: #ffffff !important; }
+.project-card:hover { border-color: rgba(171,161,150,0.32) !important; }
+.footer-link:hover { color: #ffffff !important; }
+.see-all-link:hover { border-color: rgba(171,161,150,0.4) !important; color: #ffffff !important; }
+
+/* responsive: collapse the centered nav links on narrow screens
+   (sections stay reachable via the ⌘K palette and footer links) */
+@media (max-width: 860px) {
+  .nav-links { display: none !important; }
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+/* responsive: stack the two-column grids on small screens */
+@media (max-width: 720px) {
+  .hero-term-grid { grid-template-columns: 1fr !important; }
+  .hero-term-grid > div:first-child {
+    border-right: none !important;
+    border-bottom: 1px solid rgba(171,161,150,0.12) !important;
   }
+  .pillar-row { grid-template-columns: 1fr !important; }
+  /* text always reads first once stacked, regardless of the alternating flip */
+  .pillar-row > .pillar-text   { grid-row: 1 !important; grid-column: 1 !important; padding: 30px 24px !important; }
+  .pillar-row > .pillar-visual { grid-row: 2 !important; grid-column: 1 !important; padding: 0 24px 30px !important; }
 }
