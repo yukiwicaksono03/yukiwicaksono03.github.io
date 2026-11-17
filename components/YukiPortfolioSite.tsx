@@ -8,6 +8,14 @@ const ACCENT = '#c9bba5';
 const ALTERNATE_ROWS = true;
 const STATUS_TEXT_OVERRIDE = ''; // set to override the "Available for work" status line
 
+// Add verified application screenshots here; cards without one keep their compact layout.
+const LIVE_PROJECT_PREVIEWS: Partial<Record<string, string>> = {
+  'https://lilsala.com/': '/projects/lilsala.webp',
+  'https://cat.binakaryacendekia.id/': '/projects/cat-vision-center.webp',
+  'https://www.bermayuniar.com/': '/projects/berma-yuniar.webp',
+  'https://jkieglobal.com/': '/projects/jkie-global.webp',
+};
+
 const TEXT = {
   en: {
     hireMe: 'Hire me',
@@ -57,10 +65,10 @@ const TEXT = {
       { name: 'nextjs-boilerplate', blurb: 'Starting point for new Next.js projects.', tags: ['TypeScript', 'Next.js'], url: 'https://github.com/yukiwicaksono03/nextjs-boilerplate' }
     ],
     liveProjects: [
-      { name: 'Lilsala', blurb: 'E-commerce platform for a company in Bandung, built with full Shopee-style features: product management, shopping cart, payment system, order management, and a seller dashboard. Designed for a fast, comfortable shopping experience.', tags: ['E-commerce Platform'], url: 'https://lilsala.com/' },
-      { name: 'Cat Vision Center', blurb: 'Online exam application for Bina Karya Cendekia. Features include question management, exam timer, anti-cheat, automatic scoring, and per-participant result reports. Supports multiple question types including multiple choice and essay.', tags: ['Exam Platform'], url: 'https://cat.binakaryacendekia.id/' },
-      { name: 'Berma Yuniar', blurb: 'Company profile website for PT. Berkah Maju Yuniar. Presents company information, services, project portfolio, and contact details. Designed with a professional, responsive look to build client trust.', tags: ['Company Profile'], url: 'https://www.bermayuniar.com/' },
-      { name: 'JKIE Global Indonesia', blurb: 'Company profile website for JKIE Global Indonesia. Presents vision and mission, business services, team, and company contact information. Built for high performance and a modern design that represents the brand strongly.', tags: ['Company Profile'], url: 'https://jkieglobal.com/' }
+      { name: 'Lilsala', blurb: 'E-commerce platform for a Bandung business, with product management, checkout, payments, and a seller dashboard.', tags: ['E-commerce Platform'], url: 'https://lilsala.com/' },
+      { name: 'Cat Vision Center', blurb: 'Online exam platform for Bina Karya Cendekia, with timed tests, anti-cheat features, and automatic scoring.', tags: ['Exam Platform'], url: 'https://cat.binakaryacendekia.id/' },
+      { name: 'Berma Yuniar', blurb: 'Company website for PT. Berkah Maju Yuniar, showcasing its services and project portfolio in a responsive design.', tags: ['Company Profile'], url: 'https://www.bermayuniar.com/' },
+      { name: 'JKIE Global Indonesia', blurb: 'Company website for JKIE Global Indonesia, presenting its services, team, and business identity in a modern design.', tags: ['Company Profile'], url: 'https://jkieglobal.com/' }
     ]
   },
   id: {
@@ -111,10 +119,10 @@ const TEXT = {
       { name: 'nextjs-boilerplate', blurb: 'Titik awal untuk proyek Next.js baru.', tags: ['TypeScript', 'Next.js'], url: 'https://github.com/yukiwicaksono03/nextjs-boilerplate' }
     ],
     liveProjects: [
-      { name: 'Lilsala', blurb: 'Platform ecommerce milik sebuah perusahaan di Bandung yang dibangun dengan fitur-fitur lengkap seperti Shopee: manajemen produk, keranjang belanja, sistem pembayaran, manajemen pesanan, dan dashboard seller. Didesain untuk pengalaman belanja yang cepat dan nyaman.', tags: ['Platform E-commerce'], url: 'https://lilsala.com/' },
-      { name: 'Cat Vision Center', blurb: 'Aplikasi ujian online untuk lembaga Bina Karya Cendekia. Fitur meliputi manajemen soal, timer ujian, anti-cheat, penilaian otomatis, dan laporan hasil ujian per peserta. Mendukung berbagai tipe soal seperti pilihan ganda dan esai.', tags: ['Platform Ujian'], url: 'https://cat.binakaryacendekia.id/' },
-      { name: 'Berma Yuniar', blurb: 'Website profil perusahaan untuk PT. Berkah Maju Yuniar. Menampilkan informasi perusahaan, layanan, portofolio proyek, dan kontak. Didesain dengan tampilan profesional dan responsif untuk meningkatkan kepercayaan klien.', tags: ['Profil Perusahaan'], url: 'https://www.bermayuniar.com/' },
-      { name: 'JKIE Global Indonesia', blurb: 'Website profil perusahaan untuk JKIE Global Indonesia. Menampilkan visi misi, layanan bisnis, tim, dan informasi kontak perusahaan. Dibangun dengan performa tinggi dan desain modern untuk representasi brand yang kuat.', tags: ['Profil Perusahaan'], url: 'https://jkieglobal.com/' }
+      { name: 'Lilsala', blurb: 'Platform e-commerce untuk bisnis di Bandung, lengkap dengan pengelolaan produk, checkout, pembayaran, dan dashboard seller.', tags: ['Platform E-commerce'], url: 'https://lilsala.com/' },
+      { name: 'Cat Vision Center', blurb: 'Platform ujian online Bina Karya Cendekia dengan timer, fitur anti-cheat, dan penilaian otomatis.', tags: ['Platform Ujian'], url: 'https://cat.binakaryacendekia.id/' },
+      { name: 'Berma Yuniar', blurb: 'Website PT. Berkah Maju Yuniar yang menampilkan layanan dan portofolio proyek dalam desain responsif.', tags: ['Profil Perusahaan'], url: 'https://www.bermayuniar.com/' },
+      { name: 'JKIE Global Indonesia', blurb: 'Website JKIE Global Indonesia yang menampilkan layanan, tim, dan identitas perusahaan dalam desain modern.', tags: ['Profil Perusahaan'], url: 'https://jkieglobal.com/' }
     ]
   }
 } as const;
@@ -375,8 +383,13 @@ export default function YukiPortfolioSite() {
               <span style={{ flex: 1, height: 1, background: 'rgba(171,161,150,0.14)', display: 'block' }}></span>
             </div>
             <div style={{ width: '100%', display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(300px,1fr))', gap: 16, marginTop: 18 }}>
-              {t.liveProjects.map((p, i) => (
-                <a key={i} data-reveal="" href={p.url} target="_blank" rel="noreferrer" className="project-card" style={{ display: 'flex', flexDirection: 'column', padding: 26, border: '1px solid rgba(171,161,150,0.14)', borderRadius: 22, background: 'linear-gradient(180deg,#1c1a17,#1c1a17)' }}>
+              {t.liveProjects.map((p) => (
+                <a key={p.url} data-reveal="" href={p.url} target="_blank" rel="noreferrer" className={`project-card live-project-card${LIVE_PROJECT_PREVIEWS[p.url] ? ' has-preview' : ''}`} style={{ display: 'flex', flexDirection: 'column', padding: 26, border: '1px solid rgba(171,161,150,0.14)', borderRadius: 22, background: '#1c1a17' }}>
+                  {LIVE_PROJECT_PREVIEWS[p.url] && (
+                    <div className="live-project-preview" aria-hidden="true">
+                      <Image src={LIVE_PROJECT_PREVIEWS[p.url]!} alt="" fill sizes="(max-width: 680px) 100vw, (max-width: 1000px) 50vw, 340px" className="live-project-screenshot" />
+                    </div>
+                  )}
                   <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 12 }}>
                     <div style={{ fontFamily: FONT_MONO, fontSize: 15, fontWeight: 500, color: '#f1ede4' }}>{p.name}</div>
                     <div style={{ fontSize: 12, color: '#857f74' }}>↗</div>

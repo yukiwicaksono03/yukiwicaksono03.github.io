@@ -36,6 +36,43 @@ a:hover { color: #ffffff; }
 .btn-accent:hover { filter: brightness(1.1); }
 .btn-outline:hover { border-color: rgba(171,161,150,0.4) !important; color: #ffffff !important; }
 .project-card:hover { border-color: rgba(171,161,150,0.32) !important; }
+.live-project-card { position: relative; isolation: isolate; overflow: hidden; }
+.live-project-card.has-preview { padding-top: 190px !important; }
+.live-project-preview {
+  position: absolute;
+  inset: 0;
+  bottom: auto;
+  height: 270px;
+  /* Keep the hover-scaled image inside the area covered by the gradient. */
+  overflow: hidden;
+  z-index: -1;
+  pointer-events: none;
+  background: #1c1a17;
+}
+.live-project-preview::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(28,26,23,.12), rgba(28,26,23,.35) 35%, rgba(28,26,23,.94) 72%, #1c1a17);
+}
+.live-project-screenshot {
+  object-fit: cover;
+  object-position: center top;
+  filter: saturate(.35) sepia(.2) brightness(.75);
+  opacity: .85;
+  transition: filter .35s ease, transform .5s ease;
+}
+.live-project-card:hover .live-project-screenshot,
+.live-project-card:focus-visible .live-project-screenshot {
+  filter: saturate(.65) sepia(.12) brightness(.85);
+  transform: scale(1.025);
+}
+.live-project-card:focus-visible { outline: 2px solid #c9bba5; outline-offset: 4px; }
+@media (prefers-reduced-motion: reduce) {
+  .live-project-screenshot { transition: none; }
+  .live-project-card:hover .live-project-screenshot,
+  .live-project-card:focus-visible .live-project-screenshot { transform: none; }
+}
 .footer-link:hover { color: #ffffff !important; }
 .see-all-link:hover { border-color: rgba(171,161,150,0.4) !important; color: #ffffff !important; }
 
