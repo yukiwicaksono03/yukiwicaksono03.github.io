@@ -14,7 +14,7 @@ Other scripts:
 
 ```bash
 npm run build    # production build
-npm start        # serve the production build
+npx serve out   # preview the static production build
 npm run lint     # eslint
 ```
 
@@ -60,4 +60,24 @@ Tweakable constants, same file:
 - Styling is inline (ported from the design export); `app/globals.css` holds the
   keyframes, hover states, and the media queries that stack the two-column grids
   and collapse the nav links below 720px / 860px.
-- Deploys as-is to Vercel, or any host that runs `npm run build && npm start`.
+- `npm run build` exports a static website to `out/`, including unoptimized images.
+
+## GitHub Pages
+
+For a root user site, use a repository named `<username>.github.io` owned by
+that same GitHub account. This project's target is
+`yukiwicaksono03/yukiwicaksono03.github.io`, published to
+`https://yukiwicaksono03.github.io/`.
+
+In the repository's **Settings → Pages**, select **GitHub Actions** as the
+build and deployment source. Push this project to its `main` branch. The
+workflow in `.github/workflows/deploy-pages.yml` builds and deploys the site
+on every push to `main`; it can also be run manually from the Actions tab.
+
+This configuration targets the root user site. Deploying under a project
+repository path requires additional asset-path configuration.
+
+To publish from a terminal authenticated as `yukiwicaksono03`, run
+`bash scripts/publish-pages.sh`. This builds the site, commits the deployment
+configuration, creates the public user-site repository if missing, enables
+Pages, and pushes `main` without force. The existing `origin` is preserved.
